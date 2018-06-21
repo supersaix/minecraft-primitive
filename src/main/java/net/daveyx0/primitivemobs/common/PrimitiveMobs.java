@@ -1,9 +1,24 @@
 package net.daveyx0.primitivemobs.common;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.daveyx0.primitivemobs.client.TabPrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfig;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsCapabilities;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsMapGen;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsMessages;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsRecipes;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
+import net.daveyx0.primitivemobs.event.PrimitiveMobsEventHandler;
+import net.daveyx0.primitivemobs.event.PrimitiveMobsSpawnerEventHandler;
+import net.daveyx0.primitivemobs.network.PrimitiveNetworkWrapper;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,35 +26,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.daveyx0.primitivemobs.client.TabPrimitiveMobs;
-import net.daveyx0.primitivemobs.config.PrimitiveMobsConfig;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsBlocks;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsCapabilities;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsMapGen;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsMessages;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsRecipes;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
-import net.daveyx0.primitivemobs.event.PrimitiveMobsEventHandler;
-import net.daveyx0.primitivemobs.event.PrimitiveMobsSpawnerEventHandler;
-import net.daveyx0.primitivemobs.modint.IModIntegration;
-import net.daveyx0.primitivemobs.modint.JustEnoughResourcesIntegration;
-import net.daveyx0.primitivemobs.network.PrimitiveNetworkWrapper;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTableList;
 
 @Mod(modid= PrimitiveMobsReference.MODID, name = PrimitiveMobsReference.NAME, version = PrimitiveMobsReference.VERSION, acceptedMinecraftVersions = "[1.12]",	
 		guiFactory = "net.daveyx0."+ PrimitiveMobsReference.MODID+".config.PrimitiveMobsFactoryGui")
@@ -88,11 +75,6 @@ public class PrimitiveMobs {
 	{
 		proxy.init(event);
 		PrimitiveMobsMapGen.registerWorldGenerators();
-		IModIntegration modIntegration;
-		if (Loader.isModLoaded("jeresources")) {
-			modIntegration = new JustEnoughResourcesIntegration();
-			modIntegration.init();
-		}
 	}
 
 	@EventHandler
